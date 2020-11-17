@@ -29,6 +29,10 @@ def proceed():
     clearScreen()
 
 def query1():
+    """
+    This function displays the overall retail sales statistics in March and June of 2019 and 2020.
+    It also shows which ones had a negative growth in March 2020 and positive growth in June 2020
+    """
     print("Retail sale percentage 2020 from 2019 in March")
     # use salesBySector collection
     mycol = mydb["salesBySector"]
@@ -53,6 +57,11 @@ def query1():
     print(int_df)
 
 def query2():
+    """
+    Overall global sports equipment sales statistics.
+    Runs two queries. One representing the market size for 2017-2020, and one for the average. 
+    It then analyzes annual growth before 2020, and compares it to 2019-2020 growth
+    """
     # use sportsEquipmentMarketSize collection
     mycol = mydb["sportsEquipmentMarketSize"]
     
@@ -81,6 +90,12 @@ def query2():
 
 
 def query3():
+    """
+    Runs 3 queries showing how dramatically low April 2020 sales were for sporting goods.
+    The first one just shows all the Aprils between 2017 and 2020,
+    the second one shows the average of all the Aprils, 
+    and the third one shows ust that April 2020 was indeed the lowest grossing month for sporting goods 
+    """
     # use sportingGoodsRetail collection
     mycol = mydb["sportingGoodsRetail"]
 
@@ -110,6 +125,12 @@ def query3():
     print(df)
 
 def query4():
+    """
+    Runs 3 queries showing how dramatically high June 2020 sales were for sporting goods.
+    The first one just shows all the Junes between 2017 and 2020,
+    the second one shows the average of all the Junes, 
+    and the third one shows ust that June 2020 was indeed the highest grossing month for sporting goods 
+    """
     # use sportingGoodsRetail collection
     mycol = mydb["sportingGoodsRetail"]
 
@@ -139,6 +160,12 @@ def query4():
     print(df)
 
 def query5():
+    """
+    This function runs 2 queries:
+    One showing outdoor sporting good sales statistics between 2017 and 2019,
+    and one pinning 2019 sales next to 2020 sales.
+    We then analyze the annual growth for 2017-2019 and compare it to the growth between 2019 and 2020
+    """
     # use outdoorSportsEquipmentRetail collection
     mycol = mydb["outdoorSportsEquipmentRetail"]
 
@@ -177,7 +204,7 @@ def main():
     
     }
     print(menu)
-    while True:
+    while True: #asks the user for selection input
         option  = input("Please select an option: ")
         if option == "exit":
             exit()
