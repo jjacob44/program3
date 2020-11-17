@@ -8,7 +8,7 @@ myclient = pymongo.MongoClient("mongodb+srv://JackRothberg:Minot2tru!@cluster0.5
 # use specific database
 mydb = myclient["covidSportingGoods"]
 
-menu = "Query menu:\n    1 - Lower sales in March 2020 than March 2019\n    2 - Higher sales in June 2020 than June 2019\n    3 - International average sports equipment market size\n    4 - Sporting goods retail sales Aprils of 2017-2020\n    5 - Average sporting goods sales in April before 2020\n    6 - Lowest grossing month for sporting goods sales between 2017-2020\n    7 - Sporting goods retail sales Junes of 2017-2020\n    8 - Average sporting goods sales in June before 2020\n    9 - Highest grossing month for sporting goods sales between 2017-2020\n    10 - Outdoor sporting goods sales stats 2017-2019\n    11 - Outdoor sporting goods sales growth 2019-2020\n    To exit the program, type “exit”"
+menu = "Query menu:\n    1 - Retail Percentage from 2019 of March 2020 vs June 2020\n    2 - International average sports equipment market size\n    3 - Sporting goods retail sales stats Aprils of 2017-2020\n    4 - Sporting goods retail sales stats Junes of 2017-2020\n    5 - Outdoor sporting goods sales stats 2017-2019 and Outdoor sporting goods sales growth 2019-2020\nTo exit the program, type “exit”"
 
 def clearScreen():
     """
@@ -29,24 +29,34 @@ def proceed():
     clearScreen()
 
 def query1():
+    print("Retail sale percentage 2020 from 2019 in March")
     # use salesBySector collection
     mycol = mydb["salesBySector"]
     lst = mycol.find( {"RetailPercentFrom2019": {"$lt": 0}, "Month": "March" }, {"Sector":1, "RetailPercentFrom2019":1, "_id":0} )
-    df = pd.DataFrame(lst)
-    print(df)
+    df1 = pd.DataFrame(lst)
+    print(df1)
 
-def query2():
+    print("\n")
+
+    print("Retail sale percentage 2020 from 2019 in June")
     # use salesBySector collection
     mycol = mydb["salesBySector"]
     lst = mycol.find( {"RetailPercentFrom2019": {"$gt": 0}, "Month": "June" }, {"Sector":1, "RetailPercentFrom2019":1, "_id":0} )
-    df = pd.DataFrame(lst)
-    print(df)
+    df2 = pd.DataFrame(lst)
+    print(df2)
 
-def query3():
+    print("\n")
+
+    print("Intersection")
+    # https://www.geeksforgeeks.org/intersection-of-two-dataframe-in-pandas-python/
+    int_df = pd.merge(df1, df2, how ='inner', on =['Sector'])
+    print(int_df)
+
+def query2():
     # use sportsEquipmentMarketSize collection
     mycol = mydb["sportsEquipmentMarketSize"]
     
-    print("--------Market Size 2017 - 2020----------")
+    print("Market Size 2017 - 2020")
     # display market size from 2017 - 2020
     lst = mycol.find({"Year": {"$in": [2017, 2018, 2019, 2020]}})
     df = pd.DataFrame(lst)
@@ -62,72 +72,65 @@ def query3():
     del df['_id']
     print(df)
 
-def query4():
+def query3():
     # use sportingGoodsRetail collection
     mycol = mydb["sportingGoodsRetail"]
 
+    print("Retail sales in April 2017 - 2020")
     # display retail sales in April 2017 - 2020
     lst = mycol.find( { "Month": "April" }, {"Year":1, "RetailSales":1, "_id":0} )
     df = pd.DataFrame(lst)
     df.sort_values(by=['Year'], inplace=True)
     print(df)
 
-def query5():
-
-    query4()
-
     print("\n")
 
-    # use sportingGoodsRetail collection
-    mycol = mydb["sportingGoodsRetail"]
-
+    print("Avg retail sales in April 2017 - 2020")
     # display avg retail sales in April 2017 - 2020
     lst = mycol.aggregate([ { "$match": { "Month": "April", "Year": {"$lt": 2020} } }, {"$group":{"_id": "$Month", "avgRetail": { "$avg": "$RetailSales" }}}])
     df = pd.DataFrame(lst)
     del df['_id']
     print(df)
 
-def query6():
-    # use sportingGoodsRetail collection
-    mycol = mydb["sportingGoodsRetail"]
+    print("\n")
 
+    print("Min retail sales from 2017 - 2020")
     # display min retail sales from 2017 - 2020
     lst = mycol.aggregate([ {"$group":{"_id": "null", "MinRetail": { "$min": "$RetailSales" }}}])
     df = pd.DataFrame(lst)
     del df['_id']
     print(df)
 
-def query7():
+def query4():
     # use sportingGoodsRetail collection
     mycol = mydb["sportingGoodsRetail"]
 
-    # display avg retail sales in June 2017 - 2020
+    print("Sporting goods retail sales Junes of 2017-2020")
+    # display Sporting goods retail sales Junes of 2017-2020
     lst = mycol.find( { "Month": "June" }, {"Year":1, "RetailSales":1, "_id":0} )
     df = pd.DataFrame(lst)
     df.sort_values(by=['Year'], inplace=True)
     print(df)
 
-def query8():
-    # use sportingGoodsRetail collection
-    mycol = mydb["sportingGoodsRetail"]
+    print("\n")
 
+    print("Avg retail sales in June 2017 - 2019")
     # display avg retail sales in June 2017 - 2019
     lst = mycol.aggregate([ { "$match": { "Month": "June", "Year": {"$lt": 2020} } }, {"$group":{"_id": "$Month", "avgRetail": { "$avg": "$RetailSales" }}}])
     df = pd.DataFrame(lst)
     del df['_id']
     print(df)
 
-def query9():
-    # use sportingGoodsRetail collection
-    mycol = mydb["sportingGoodsRetail"]
+    print("\n")
 
+    print("Max retail sales from 2017 - 2020")
     # display max retail sales from 2017 - 2020
     lst = mycol.aggregate([ {"$group":{"_id": "null", "MaxRetail": { "$max": "$RetailSales" }}}])
     df = pd.DataFrame(lst)
     del df['_id']
     print(df)
 
-def query10():
+def query5():
     # use outdoorSportsEquipmentRetail collection
     mycol = mydb["outdoorSportsEquipmentRetail"]
 
@@ -147,16 +150,6 @@ def query10():
     df.sort_values(by=['Year'], inplace=True)
     print(df)
 
-def query11():
-    # use outdoorSportsEquipmentRetail collection
-    mycol = mydb["outdoorSportsEquipmentRetail"]
-
-    # display Outdoor sporting goods sales stats 2017-2019
-    lst = mycol.find( { "Year": { "$in": [2019, 2020] } }, {"_id":0, "Year":1, "Revenue":1} )
-    df = pd.DataFrame(lst)
-    df.sort_values(by=['Year'], inplace=True)
-    print(df)
-
 def main():
     clearScreen()
 
@@ -165,13 +158,7 @@ def main():
         2: query2,
         3: query3,
         4: query4,
-        5: query5,
-        6: query6,
-        7: query7,
-        8: query8,
-        9: query9,
-        10: query10,
-        11: query11 
+        5: query5
     
     }
     print(menu)
@@ -184,10 +171,10 @@ def main():
         try:
             selection  = int(option)
         except(ValueError):
-            print("Invalid slection. Value must be a number.")
+            print("Invalid selection. Value must be a number.")
             continue
         if selection not in options.keys():
-                print("Invalid selection. Value must be between 1 and 11 (inclusive).")
+                print("Invalid selection. Value must be between 1 and 5 (inclusive).")
                 continue
         clearScreen()
         options[selection]() # run selected query
