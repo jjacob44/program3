@@ -141,6 +141,9 @@ def query5():
     df.sort_values(by=['Year'], inplace=True)
     print(df)
 
+    # YEARLY GROWTH: ( (14726 - 11272) + (18408 - 14726) ) / 2 = 3568
+    print("\nYEARLY GROWTH: ( (14726 - 11272) + (18408 - 14726) ) / 2 = 3568")
+
     print("\n")
 
     print("Outdoor sporting goods sales stats 2019 and 2020")
@@ -149,6 +152,10 @@ def query5():
     df = pd.DataFrame(lst)
     df.sort_values(by=['Year'], inplace=True)
     print(df)
+
+    # 2019 - 2020 GROWTH: 23192 - 18408 = 4784
+    print("\n2019 - 2020 GROWTH: 23192 - 18408 = 4784")
+    
 
 def main():
     clearScreen()
