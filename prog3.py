@@ -8,7 +8,7 @@ myclient = pymongo.MongoClient("mongodb+srv://JackRothberg:Minot2tru!@cluster0.5
 # use specific database
 mydb = myclient["covidSportingGoods"]
 
-menu = "Query menu:\n    1 - Retail Percentage from 2019 of March 2020 vs June 2020\n    2 - International average sports equipment market size\n    3 - Sporting goods retail sales stats Aprils of 2017-2020\n    4 - Sporting goods retail sales stats Junes of 2017-2020\n    5 - Outdoor sporting goods sales stats 2017-2019 and Outdoor sporting goods sales growth 2019-2020\nTo exit the program, type “exit”"
+menu = "Query menu:\n    1 - Retail Percentage from 2019 of March 2020 vs June 2020\n    2 - International average sports equipment market size\n    3 - Sporting goods retail sales stats Aprils of 2017-2020\n    4 - Sporting goods retail sales stats Junes of 2017-2020\n    5 - Outdoor sporting goods sales stats 2017-2020 \nTo exit the program, type “exit”"
 
 def clearScreen():
     """
@@ -64,13 +64,21 @@ def query2():
     del df['_id']
     print(df)
 
-    print("--------Avg Market Size 2017 - 2019----------")
+    # 2017 - 2019 YEARLY GROWTH: ( (126225 - 120778) + (120778-115536) ) / 2 = 5344.5 Million Dollars
+    print("\n2017 - 2019 YEARLY GROWTH: ( (126225 - 120778) + (120778-115536) ) / 2 = 5344.5 Million Dollars")
 
+    # 2019 - 2020 GROWTH: 126455 - 126225 = 230 Million Dollars
+    print("\n2019 - 2020 GROWTH: 126455 - 126225 = 230 Million Dollars")
+
+    print("\n")
+
+    print("Avg Market Size 2017 - 2019")
     # display average market size of 2017 - 2019
     lst = mycol.aggregate([ { "$match": { "Year": {"$in": [2017,2018,2019] } } }, {"$group":{"_id": "null", "avgMarketSize": { "$avg": "$MarketSize" }}}])
     df = pd.DataFrame(lst)
     del df['_id']
     print(df)
+
 
 def query3():
     # use sportingGoodsRetail collection
@@ -141,8 +149,8 @@ def query5():
     df.sort_values(by=['Year'], inplace=True)
     print(df)
 
-    # YEARLY GROWTH: ( (14726 - 11272) + (18408 - 14726) ) / 2 = 3568
-    print("\nYEARLY GROWTH: ( (14726 - 11272) + (18408 - 14726) ) / 2 = 3568")
+    # 2017 - 2019 YEARLY GROWTH: ( (14726 - 11272) + (18408 - 14726) ) / 2 = 3568 Million Dollars
+    print("\n2017 - 2019 YEARLY GROWTH: ( (14726 - 11272) + (18408 - 14726) ) / 2 = 3568 Million Dollars")
 
     print("\n")
 
@@ -153,8 +161,8 @@ def query5():
     df.sort_values(by=['Year'], inplace=True)
     print(df)
 
-    # 2019 - 2020 GROWTH: 23192 - 18408 = 4784
-    print("\n2019 - 2020 GROWTH: 23192 - 18408 = 4784")
+    # 2019 - 2020 GROWTH: 23192 - 18408 = 4784 Million Dollars
+    print("\n2019 - 2020 GROWTH: 23192 - 18408 = 4784 Million Dollars")
     
 
 def main():
