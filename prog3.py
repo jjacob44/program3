@@ -15,6 +15,7 @@ def clearScreen():
     runs operating system's command to clear the terminal window. Works for both windows and UNIX based environments
     """
     os.system('cls' if os.name == 'nt' else 'clear')
+    #https://stackoverflow.com/questions/2084508/clear-terminal-in-python
 
 def proceed():
     """
