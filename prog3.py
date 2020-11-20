@@ -109,7 +109,7 @@ def query3():
 
     print("\n")
 
-    print("Avg retail sales in April 2017 - 2020")
+    print("Avg retail sales in April 2017 - 2019")
     # display avg retail sales in April 2017 - 2020
     lst = mycol.aggregate([ { "$match": { "Month": "April", "Year": {"$lt": 2020} } }, {"$group":{"_id": "$Month", "avgRetail": { "$avg": "$RetailSales" }}}])
     df = pd.DataFrame(lst)
