@@ -3,7 +3,7 @@ import pymongo
 import pandas as pd
 
 # connect to our mongo cluster
-myclient = pymongo.MongoClient("mongodb+srv://JackRothberg:Minot2tru!@cluster0.59eck.mongodb.net/covidSportingGoods")
+myclient = pymongo.MongoClient("mongodb+srv://JackRothberg:<password>@cluster0.59eck.mongodb.net/covidSportingGoods")
 
 # use specific database
 mydb = myclient["covidSportingGoods"]
